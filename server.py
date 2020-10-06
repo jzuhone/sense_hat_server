@@ -4,7 +4,7 @@ from sense_hat import SenseHat
 sense = SenseHat()
 sense.set_rotation(270)
 
-
+  
 from flask import Flask, Response, jsonify, request
 from flask_socketio import SocketIO, emit
 app = Flask(__name__)
@@ -97,10 +97,14 @@ def humidity():
 def temperature(fahrenheit=False):
     fahrenheit = request.args.get('f', default = False, type=bool)
 
+    temp = 0.0
+    while temp == 0.0:
+        temp = sense.get_temperature_from_pressure()
+    
     if fahrenheit:
-        return jsonify(9.0/5.0 * sense.temp + 32)
+        return jsonify(9.0/5.0 * temp + 32)
     else:
-        return jsonify(sense.temp)
+        return jsonify(temp)
 
 
 @app.route('/pressure')
