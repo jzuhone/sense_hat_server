@@ -18,7 +18,7 @@ while True:
     sense.show_message(tnow.strftime("%H:%M"),
                        text_colour=[0,0,128])
     temp = sense.get_temperature_from_pressure()
-    temp = int(temp*9.0/5.0+32)
+    temp = int(np.rint(temp*9.0/5.0+32))
     sense.show_message(str(temp), text_colour=[128,0,0])
     response = requests.get(complete_url) 
     x = response.json()
